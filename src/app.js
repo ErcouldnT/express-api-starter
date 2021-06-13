@@ -6,9 +6,11 @@ const cors = require('cors');
 require('dotenv').config();
 
 const middlewares = require('./middlewares');
-const api = require('./api');
+const userApi = require('./api/user');
+const roomApi = require('./api/room');
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(morgan('dev'));
 app.use(helmet());
@@ -17,11 +19,14 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   res.json({
-    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄'
+    message: 'API - 🦄🌈✨👋🌎🌍🌏✨🌈🦄'
   });
 });
 
-app.use('/api/v1', api);
+app.use('/api/v1/user', userApi);
+app.use('/api/v1/room', roomApi);
+app.use('/api/', middlewares.apiLimiter);
+app.use('/api/', middlewares.speedLimiter);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
