@@ -23,10 +23,11 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/api/v1/user', userApi);
-app.use('/api/v1/room', roomApi);
+// Limiters need to be first
 app.use('/api/', middlewares.apiLimiter);
 app.use('/api/', middlewares.speedLimiter);
+app.use('/api/v1/user', userApi);
+app.use('/api/v1/room', roomApi);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

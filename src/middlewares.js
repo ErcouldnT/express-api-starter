@@ -3,7 +3,7 @@ const slowDown = require('express-slow-down');
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10 // limit each IP to 100 requests per 15 minutes
+  max: 100 // limit each IP to 100 requests per 15 minutes
 });
 
 const createAccountLimiter = rateLimit({
@@ -18,7 +18,7 @@ const createAccountLimiter = rateLimit({
 
 const speedLimiter = slowDown({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  delayAfter: 6, // allow 60 requests per 15 minutes, then...
+  delayAfter: 60, // allow 60 requests per 15 minutes, then...
   delayMs: 500 // begin adding +500 ms of delay per request.
 });
 
